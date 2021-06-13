@@ -1,0 +1,29 @@
+'Soluciones inmobiliarias'
+    Ventas de propiedades
+
+var personas = []
+var propiedades = []
+var propiedadesVendidas = []
+var ventas = []
+var personasIdsDeleteds = []
+var propiedadesIdsDeleteds = []
+var personasBackUp = []
+var propiedadesBackUp = []
+
+Se pide:
+    - ABM Vendedores
+    - ABM Clientes
+    - ABM propiedades
+    - Ventas
+    - Consultas
+
+
+Notas:
+    - Una persona puede ser cliente y vendedor.
+    - Alert artificial para las estadisticas.
+    - Cada propiedad debe tener un propietario anterior, una persona no ingresada
+    como vendedor o comprador.
+
+
+STATS:
+    
