@@ -25,5 +25,17 @@ Notas:
     como vendedor o comprador.
 
 
-STATS:
-    
+BACKUP: ventas
+var fecha;
+var propiedad;
+var monto;
+var comprador;
+var vendendor;
+
+function getData() {
+    fecha = document.getElementById('sellFecha').value;
+    propiedad = document.getElementById('sellPropiedad').selectedIndex;
+    monto = document.getElementById('sellMonto').value;
+    comprador = document.getElementById('sellComprador').selectedIndex;
+    vendendor = document.getElementById('sellVendedor').value;
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ventas</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@400;500;600&display=swap" rel="stylesheet">
+        <link rel='stylesheet' type='text/css' href='../css/main.css'>
+        <script src='../Dominio/main.js' type='text/javascript'></script>
+        <script src='../Dominio/database.js' type='text/javascript'></script>
+        <script type='text/javascript'>
+            function toggleMenu() {
+                var menu = document.getElementById('menu');
+                if (menu.style.display == 'block') {
+                    menu.style.display == 'none'
+                } else {
+                    menu.style.display == 'block'
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <div id="header">
+            <img src="../images/200x200.png" alt="menuLogo" style="z-index: 2;" onclick="toggleMenu()" id="menuLogo">
+            <center>
+                <p class="title">Personas</p>
+            </center>
+        </div>
+
+        <div id="menu">
+            <button onclick="window.location.href='personas.html'">Personas</button>
+            <button onclick="window.location.href='propiedades.html'">Propiedades</button>
+            <button onclick="window.location.href='ventas.html'">Ventas</button>
+        </div>
+
+        <div id="content">
+            <center>
+                <form name="personasfrm">
+                    <table border="3">
+                        <tr>
+                            <td>
+                                <p>Fecha:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="sellFecha" class="sellInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Propiedad:</p>
+                            </td>
+                            <td>
+                                <select id="sellPropiedad" class="sellInput"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Monto:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="sellMonto" class="sellInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Comprador:</p>
+                            </td>
+                            <td>
+                                <select id="sellComprador" class="sellInput"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Vendedor:</p>
+                            </td>
+                            <td>
+                                <select id="sellVendedor" class="sellInput"></select>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+                <button onclick="vender()" class="sellBtns">Vender</button>
+                <button onclick="SellLimpiar()" class="sellBtns">Limpiar</button>
+                <button onclick="sellModify()" class="sellBtns">Modificar</button>
+                <button type="reset" class="sellBtns">Limpiar</button>
+
+                <!-- <button onclick="idEliminated()">Usar ID Eliminado</button> -->
+
+                <br>
+                <div id="cartera">
+                    <p>Cartera:</p>
+                    <input type="text" id="cartera" readonly='readonly'>
+                </div>
+
+                <br>
+                <select id="dbPersonas" size="500"></select>
+                <br>
+                <br>
+            </center>
+        </div>
+    </body>
+</html>

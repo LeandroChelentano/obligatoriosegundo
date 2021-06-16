@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Propiedades</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@400;500;600&display=swap" rel="stylesheet">
+        <link rel='stylesheet' type='text/css' href='../css/main.css'>
+        <script src='../Dominio/main.js' type='text/javascript'></script>
+        <script src='../Dominio/database.js' type='text/javascript'></script>
+        <script type='text/javascript'>
+            function toggleMenu() {
+                var menu = document.getElementById('menu');
+                if (menu.style.display == 'block') {
+                    menu.style.display == 'none'
+                } else {
+                    menu.style.display == 'block'
+                }
+            }
+        </script>
+    </head>
+    
+    <!-- <body> -->
+    <body onload="loadAll()">
+        <div id="header">
+            <img src="../images/200x200.png" alt="menuLogo" onclick="toggleMenu()" id="menuLogo">
+            <center>
+                <p class="title">Propiedades</p>
+            </center>
+        </div>
+
+        <div id="menu">
+            <button onclick="window.location.href='personas.html'">Personas</button>
+            <button onclick="window.location.href='propiedades.html'">Propiedades</button>
+            <button onclick="window.location.href='ventas.html'">Ventas</button>
+        </div>
+
+        <div id="content">
+            <!-- <div id="propertiesTable"> -->
+            <center>
+                <form id="formProperties">
+                    <table border="3">
+                        <tr>
+                            <td id="one">
+                                <p>Tipo:</p>
+                            </td>
+                            <td>
+                                <input type="radio" name="tipo" id="v1">Casa
+                                <input type="radio" name="tipo" id="v2">Apartamento
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Direccion:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="propertiesDireccion" class="propertiesInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Barrio:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="propertiesBarrio" class="propertiesInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Ciudad:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="propertiesCiudad" class="propertiesInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Metros Cuadrados:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="propertiesMetros" class="propertiesInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Dormitorios:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="propertiesDormitorios" class="propertiesInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Baños:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="propertiesBanos" class="propertiesInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Garage:</p>
+                            </td>
+                            <td>
+                                <input type="radio" name="garage" id="v3">Si
+                                <input type="radio" name="garage" id="v4">No
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Parrillero:</p>
+                            </td>
+                            <td>
+                                <input type="radio" name="parrillero" id="v5">Si
+                                <input type="radio" name="parrillero" id="v6">No
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Wi-Fi:</p>
+                            </td>
+                            <td>
+                                <input type="radio" name="wifi" id="v7">Si
+                                <input type="radio" name="wifi" id="v8">No
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Mascotas permitidas:</p>
+                            </td>
+                            <td>
+                                <input type="radio" name="mascotas" id="v9">Si
+                                <input type="radio" name="mascotas" id="v10">No
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Precio:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="propertiesPrecio" class="propertiesInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Propietario:</p>
+                            </td>
+                            <td>
+                                <select id="propertiesPropietario" class="sellInput"></select>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+                <button onclick="propertiesAdd()" class="propertiesBtns">Añadir</button>
+                <button onclick="propertiesRemove()" class="propertiesBtns">Eliminar</button>
+                <button onclick="propertiesModify()" class="propertiesBtns">Modificar</button>
+                <button onclick="propertiesClear()" type="reset" class="propertiesBtns">Limpiar</button>
+            <!-- </div> -->
+
+            <!-- <div id="propertiesData"> -->
+                <br>
+                <select id="dbPropiedades" size="500" onclick="selectP()"></select>
+            </center>
+            <!-- </div> -->
+
+            <!-- <div id="propertiesDeletedId">
+                <button onclick="showPropertiesIds()" class="deletedIds">Usar ID eliminado</button>
+            </div> -->
+            <br>
+        </div>
+    </body>
+</html>

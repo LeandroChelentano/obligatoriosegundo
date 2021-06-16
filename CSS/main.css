@@ -6,3 +6,172 @@
 body {
     margin: 0px;
 }
+
+/* home */
+
+#homeContent {
+    position: absolute;
+    height: 40%;
+    width: 20%;
+    top: 30%;
+    left: 40%;
+
+    /* border: 1px solid black; */
+}
+
+#homeContent center img {
+    height: 200px;
+}
+
+#homeContent center button {
+    position: relative;
+
+
+    padding: 2%;
+    font-weight: 500;
+    border: 1px solid black;
+    border-radius: 0px;
+}
+
+#autoria {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin: 2%;
+
+    font-weight: 500;
+}
+
+/* header */
+
+#header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 7%;
+    width: 100%;
+    
+    background-color: blue;
+}
+
+#menuLogo {
+    position: absolute;
+    height: 100%;
+    margin-left: 1%;
+}
+
+#header center p {
+    position: static;
+
+    margin: 0.65%;
+    font-size: 2vw;
+    font-weight: 600;
+}
+
+#menu {
+    position: absolute;
+    top: 7%;
+    left: 0px;
+    height: 10%;
+    width: 15%;
+
+    display: display; /* This is what changes */
+    z-index: 2;
+
+    /* background-color: magenta; */
+    /* border: 1px solid black; */
+}
+
+#menu button {
+    height: 33%;    
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 0px;
+    margin: 0px;
+}
+
+/* ventas */
+
+#content {
+    position: absolute;
+    height: fit-content;
+    width: 70%;
+    top: 7%;
+    left: 15%;
+
+    background-color: gray;
+}
+
+#contentV {
+    position: absolute;
+    height: 93%;
+    width: 70%;
+    top: 7%;
+    left: 15%;
+
+    background-color: gray;
+}
+
+#contentV center form table, #content center form table{
+    margin: 2%;
+    width: 50%;
+    background-color: white;
+}
+
+#one {
+    width: 40%;
+}
+    
+#contentV center form table tr td p, #content center form table tr td p {
+    margin: 5%;
+    margin-right: 20%;
+    margin-left: 10%;
+}
+
+#content center form tr td input[type=radio] {
+    border: 0px;
+    width: 100%;
+    height: 1em;
+    width: 2em;
+}
+
+#content center table tr td input, #contentV center form table tr td input {
+    width: 97%;
+    height: 40px;
+}
+
+#content center table tr td select, #contentV center form table tr td select {
+    width: 100%;
+    height: 40px;
+}
+
+#content center button, #contentV center button {
+    margin: 2%;
+    margin-top: 0px;
+    width: 10%;
+    padding: 0.7%;
+    border-radius: 0px;
+    border: 1px solid black;
+}
+
+#cartera {
+    border: 1px solid black;
+    background-color: white;
+    width: 20%;
+}
+
+#cartera input {
+    width: 80%;
+    margin: 3%;
+}
+
+#cartera p {
+    margin: 5%;
+    margin-bottom: 1%;
+}
+
+#dbVentas, #dbPropiedades, #dbPersonas {
+    height: 200px;
+    width: 70%;
+}
+
