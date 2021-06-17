@@ -11,6 +11,7 @@ function save() {
 }
 
 function loadAll() {
+    var propiedades = new Array();
     loadPropiedades();
 
     refrescar();
@@ -24,7 +25,7 @@ function savePropiedades() {
 }
 
 function loadPropiedades() {
-    propiedades.splice(0, propiedades.length);
+    // propiedades.splice(0, propiedades.length);
     propiedades = JSON.parse(window.localStorage.getItem('propiedades'));
 }
 
