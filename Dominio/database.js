@@ -1,8 +1,12 @@
 var propiedades = new Array();
 
 function loadAll() {
-    loadPropiedades();
-    showProperties(); // Mostrar en base de datos
+    if (window.localStorage.getItem('propiedades').length == 0) {
+        window.localStorage.setItem('propiedades', '');
+    } else {
+        loadPropiedades();
+        showProperties(); // Mostrar en base de datos
+    }
 }
 
 function savePropiedades() { // guardar en ls
