@@ -1,31 +1,16 @@
-// var propiedades = new Array() .. Just to look for the exact name..
-
-function load() {
-    console.log(propiedades);
-}
-
-function save() {    
-    console.log(window.localStorage.setItem('people', JSON.stringify(arr)));
-    console.log(JSON.parse(window.localStorage.getItem('people')));
-    window.localStorage.removeItem('people');
-}
+var propiedades = new Array();
 
 function loadAll() {
-    var propiedades = new Array();
     loadPropiedades();
-
-    refrescar();
+    showProperties(); // Mostrar en base de datos
 }
 
-function savePropiedades() {
+function savePropiedades() { // guardar en ls
     window.localStorage.removeItem('propiedades');
-    console.log(window.localStorage.setItem('propiedades', JSON.stringify(propiedades)));
-    propiedades.splice(0, propiedades.length);
-    propiedades = JSON.parse(window.localStorage.getItem('propiedades'));
+    window.localStorage.setItem('propiedades', JSON.stringify(propiedades));
 }
 
 function loadPropiedades() {
-    // propiedades.splice(0, propiedades.length);
     propiedades = JSON.parse(window.localStorage.getItem('propiedades'));
 }
 

@@ -102,9 +102,10 @@ function getData() {
 }
 
 function refrescar() {
-    showProperties()
     propertiesClear()
     savePropiedades()
+    loadPropiedades()
+    showProperties()
 }
 
 function propertiesAdd() {
