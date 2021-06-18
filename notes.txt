@@ -39,3 +39,24 @@ function getData() {
     comprador = document.getElementById('sellComprador').selectedIndex;
     vendendor = document.getElementById('sellVendedor').value;
 }
+
+
+
+
+Datos Personas:
+Id
+CI
+Nombre
+Apellido
+telefono
+eMail
+Direccion
+
+
+
+
+
+
+seguir con
+propiedad en uso.
+cargar propietario en propiedades.

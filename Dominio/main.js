@@ -101,11 +101,40 @@ function getData() {
     propietario = 'none'
 }
 
-function refrescar() {
-    propertiesClear()
-    savePropiedades()
-    loadPropiedades()
-    showProperties()
+function getPersonas() {
+    cI = document.getElementById('pCI').value;
+    nombre = document.getElementById('pNombre').value;
+    apellido = document.getElementById('pApellido').value;
+    telefono = document.getElementById('pTelefono').value;
+    email = document.getElementById('pEmail').value;
+    direccion = document.getElementById('pDireccion').value;
+    
+    if (document.getElementById('siComprador').checked) {
+        esComprador = 'Comprador';
+    } else {
+        esComprador = '';
+    }
+
+    if (document.getElementById('siVendedor').checked) {
+        esVendedor = 'Vendedor';
+    } else {
+        esVendedor = '';
+    }
+}
+
+
+function refrescarPropiedades() {
+    propertiesClear();
+    savePropiedades();
+    loadPropiedades();
+    showProperties();
+}
+
+function refrescarPersonas() {
+    clearPersonas();
+    savePersonas();
+    loadPersonas();
+    showPersonas();
 }
 
 function propertiesAdd() {
@@ -148,7 +177,7 @@ function propertiesAdd() {
                     Propietario : propietario
                 })
                 alert('La propiedad se ingreso correctamente.')
-                refrescar()
+                refrescarPropiedades()
             }
         }
     }
@@ -221,7 +250,7 @@ function propertiesRemove()
         propiedadesBackup.push(propiedades[index]);
         propiedades.splice(index, 1);
         alert('Propiedad eliminada con exito')
-        refrescar();
+        refrescarPropiedades();
     }  
 }
 
@@ -274,7 +303,167 @@ function propertiesModify()
                     Propietario : propietario
                 })
                 alert('La propiedad se ha modificado correctamente.')
-                refrescar()
+                refrescarPropiedades()
+            }
+        }
+    }
+}
+
+///////////////////////////////// PERSONAS
+
+var personas = new Array();
+var idPersonas = new Array();
+var personasBackup = new Array();
+
+var cI;
+var nombre;
+var apellido;
+var telefono;
+var eMail;
+var esComprador;
+var esVendedor;
+
+function peopleAdd()
+{
+    getPersonas();
+    arrEmpty.push(cI,nombre,apellido,telefono,eMail,direccion);
+    if(empty())
+    {
+        alert('Debe seleccionar una persona en la lista')
+    }
+    else
+    {
+        arrInteger.push(telefono,cI);
+        if(integer())
+        {
+            alert('Los valores de CI y Telefono deben ser numericos.')
+        }
+        else
+        {
+            var x = false;
+            for (var i = 0; i < personas.length; i++)
+            {
+                if (personas[i].Ci == cI)
+                {
+                    alert('La cedula a registrar ya esta registrada')
+                    x = true;
+                } 
+            }
+            if (x == false)
+            {
+                var newId = idPropiedades.length;
+                idPropiedades.push(newId);
+                personas.push({
+                    Id          :   newId,
+                    Ci          :   cI,
+                    Nombre      :   nombre,
+                    Direccion   :   direccion,
+                    Apellido    :   apellido,
+                    Telefono    :   telefono,
+                    Email       :   email,
+                    Comprador   :   esComprador,
+                    Vendedor    :   esVendedor,
+                    Uso         :   0
+                });
+                refrescarPersonas();
+            }
+        }
+    }
+}
+
+function peopleRemove() {
+    getPersonas();
+    var db = document.getElementById('dbPersonas');
+    var index = db.selectedIndex;
+    personasBackup.push(personas[index]);
+    personas.splice(index, 1);
+    refrescarPersonas();
+}
+
+function showPersonas() {
+    var db = document.getElementById('dbPersonas');
+    db.innerHTML = '';
+    for (let i = 0; i < personas.length; i++) {
+        var line = document.createElement('option');
+        line.text = `${personas[i].Id} | ${personas[i].Nombre} | ${personas[i].Apellido} | ${personas[i].Ci} | ${personas[i].Direccion} | ${personas[i].Telefono} | ${personas[i].Email} | ${personas[i].Comprador} | ${personas[i].Vendedor}`;
+        db.add(line);
+    }
+}
+
+function selPersona() {
+    var index = document.getElementById('dbPersonas').selectedIndex;
+    document.getElementById('pCI').value = personas[index].Ci;
+    document.getElementById('pNombre').value = personas[index].Nombre;
+    document.getElementById('pApellido').value = personas[index].Apellido;
+    document.getElementById('pTelefono').value = personas[index].Telefono;
+    document.getElementById('pEmail').value = personas[index].Email;
+    document.getElementById('pDireccion').value = personas[index].Direccion;
+    
+    if (personas[index].Comprador == 'Comprador') {
+        document.getElementById('siComprador').checked == true;
+    } else {
+        document.getElementById('siComprador').checked == false;
+    }
+
+    if (personas[index].Vendedor == 'Vendedor') {
+        document.getElementById('siVendedor').checked == true;
+    } else {
+        document.getElementById('siVendedor').checked == false;
+    }   
+}
+
+function clearPersonas() {
+    document.getElementById('pCI').value = '';
+    document.getElementById('pNombre').value = '';
+    document.getElementById('pApellido').value = '';
+    document.getElementById('pTelefono').value = '';
+    document.getElementById('pEmail').value = '';
+    document.getElementById('pDireccion').value = '';
+    document.getElementById('siComprador').checked == false;
+    document.getElementById('siVendedor').checked == false;
+}
+
+function peopleModify()
+{
+    var index = document.getElementById('dbPersonas').selectedIndex;
+    getPersonas();
+    arrEmpty.push(cI,nombre,apellido,telefono,eMail,direccion);
+    if(empty())
+    {
+        alert('Debe seleccionar una persona en la lista')
+    }
+    else
+    {
+        arrInteger.push(telefono,cI);
+        if(integer())
+        {
+            alert('Los valores de CI y Telefono deben ser numericos.')
+        }
+        else
+        {
+            var x = false;
+            for (var i = 0; i < personas.length; i++)
+            {
+                if (personas[i].Ci == cI && personas[i].Ci != personas[index].Ci)
+                {
+                    alert('La cedula a registrar ya esta registrada');
+                    x = true;
+                } 
+            }
+            if (x == false)
+            {
+                personas[index] = ({
+                    Id          :   personas[index].Id,
+                    Ci          :   cI,
+                    Nombre      :   nombre,
+                    Apellido    :   apellido,
+                    Telefono    :   telefono,
+                    Email       :   email,
+                    Comprador   :   esComprador,
+                    Vendedor    :   esVendedor,
+                    Uso         :   personas[index].Uso
+                });
+                refrescarPersonas();
             }
         }
     }

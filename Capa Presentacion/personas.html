@@ -19,7 +19,7 @@
         </script>
     </head>
 
-    <body>
+    <body onload="loadAllPersonas()">
         <div id="header">
             <img src="../images/200x200.png" alt="menuLogo" style="z-index: 2;" onclick="toggleMenu()" id="menuLogo">
             <center>
@@ -39,26 +39,50 @@
                     <table border="3">
                         <tr>
                             <td>
-                                <p>Fecha:</p>
+                                <p>Nombre:</p>
                             </td>
                             <td>
-                                <input type="text" id="sellFecha" class="sellInput">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>Propiedad:</p>
-                            </td>
-                            <td>
-                                <select id="sellPropiedad" class="sellInput"></select>
+                                <input type="text" id="pNombre" class="sellInput">
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <p>Monto:</p>
+                                <p>Apellido:</p>
                             </td>
                             <td>
-                                <input type="text" id="sellMonto" class="sellInput">
+                                <input type="text" id="pApellido" class="sellInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>CI:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="pCI" class="sellInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Direccion:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="pDireccion" class="sellInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Telefono:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="pTelefono" class="sellInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>E-mail:</p>
+                            </td>
+                            <td>
+                                <input type="text" id="pEmail" class="sellInput">
                             </td>
                         </tr>
                         <tr>
@@ -66,7 +90,8 @@
                                 <p>Comprador:</p>
                             </td>
                             <td>
-                                <select id="sellComprador" class="sellInput"></select>
+                                <!-- <input type="radio" id="compador">Comprador -->
+                                <input type="checkbox" name="comprador" id="siComprador">Comprador
                             </td>
                         </tr>
                         <tr>
@@ -74,15 +99,16 @@
                                 <p>Vendedor:</p>
                             </td>
                             <td>
-                                <select id="sellVendedor" class="sellInput"></select>
+                                <!-- <input type="radio" id="vendedor">Vendedor -->
+                                <input type="checkbox" name="vendedor" id="siVendedor">Vendedor
                             </td>
                         </tr>
                     </table>
                 </form>
 
-                <button onclick="vender()" class="sellBtns">Vender</button>
-                <button onclick="SellLimpiar()" class="sellBtns">Limpiar</button>
-                <button onclick="sellModify()" class="sellBtns">Modificar</button>
+                <button onclick="peopleAdd()" class="sellBtns">Añadir</button>
+                <button onclick="peopleRemove()" class="sellBtns">Eliminar</button>
+                <button onclick="peopleModify()" class="sellBtns">Modificar</button>
                 <button type="reset" class="sellBtns">Limpiar</button>
 
                 <!-- <button onclick="idEliminated()">Usar ID Eliminado</button> -->
@@ -94,7 +120,7 @@
                 </div>
 
                 <br>
-                <select id="dbPersonas" size="500"></select>
+                <select id="dbPersonas" size="500" onclick="selPersona()"></select>
                 <br>
                 <br>
             </center>
