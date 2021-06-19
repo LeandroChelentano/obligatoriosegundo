@@ -96,9 +96,9 @@ function getData() {
     
     precio = document.getElementById('propertiesPrecio').value;
 
-    // i = document.getElementById('iropertiesPropietario').selectedIndex;
-    // propietario = personas[i].Id;
-    propietario = 'none'
+    i = document.getElementById('propertiesPropietario').selectedIndex;
+    propietario = personas[i].Id;
+    // propietario = 'none'
 }
 
 function getPersonas() {
@@ -126,14 +126,19 @@ function getPersonas() {
 function refrescarPropiedades() {
     propertiesClear();
     savePropiedades();
+    savePropiedadesBackup();
     loadPropiedades();
+    loadPropiedadesBackup();
     showProperties();
+    // loadPropietario();
 }
 
 function refrescarPersonas() {
     clearPersonas();
     savePersonas();
+    savePersonasBackup()
     loadPersonas();
+    loadPersonasBackup();
     showPersonas();
 }
 
@@ -157,8 +162,7 @@ function propertiesAdd() {
                 }
             }
             if (x == false) {
-                var newId = idPropiedades.length;
-                idPropiedades.push(newId);
+                var newId = propiedades.length + propiedadesBackup.length;
 
                 propiedades.push({
                     Id          : newId,
@@ -192,6 +196,8 @@ function showProperties() {
         linea.text = `${propiedades[i].Id} | ${propiedades[i].Tipo} | ${propiedades[i].Direccion} |  ${propiedades[i].Barrio} | ${propiedades[i].Dormitorios} | ${propiedades[i].Banos} | ${propiedades[i].Garage} | ${propiedades[i].Parrillero} | ${propiedades[i].Wifi}  | ${ propiedades[i].Mascotas} | ${propiedades[i].Precio} | ${propiedades[i].Propietario}`;
         db.add(linea);
     }
+
+    loadPropietario();
 }
 
 function selectP() {
@@ -235,7 +241,7 @@ function selectP() {
     
     document.getElementById('propertiesPrecio').value = propiedades[index].Precio;
 
-    document.getElementById('propertiesPropietario').value = propiedades[index].Propietario;
+    document.getElementById('propertiesPropietario').selectedIndex = propiedades[index].Propietario;
 }
 
 function propertiesRemove() 
@@ -309,6 +315,18 @@ function propertiesModify()
     }
 }
 
+function loadPropietario() {
+    var dbPropietarios = document.getElementById('propertiesPropietario');
+    dbPropietarios.innerHTML = '';
+    for (let o = 0 ; o < personas.length ; o++)
+    {
+        var linea = document.createElement('option');
+        linea.text = `Id: ${personas[o].Id} Nombre: ${personas[o].Nombre} ${personas[o].Apellido}`;
+        dbPropietarios.add(linea);
+    }
+}
+
+
 ///////////////////////////////// PERSONAS
 
 var personas = new Array();
@@ -351,8 +369,7 @@ function peopleAdd()
             }
             if (x == false)
             {
-                var newId = idPropiedades.length;
-                idPropiedades.push(newId);
+                var newId = personasBackup.length + personas.length;
                 personas.push({
                     Id          :   newId,
                     Ci          :   cI,
@@ -363,6 +380,7 @@ function peopleAdd()
                     Email       :   email,
                     Comprador   :   esComprador,
                     Vendedor    :   esVendedor,
+                    cartera     :   0,
                     Uso         :   0
                 });
                 refrescarPersonas();
@@ -400,15 +418,15 @@ function selPersona() {
     document.getElementById('pDireccion').value = personas[index].Direccion;
     
     if (personas[index].Comprador == 'Comprador') {
-        document.getElementById('siComprador').checked == true;
+        document.getElementById('siComprador').checked = true;
     } else {
-        document.getElementById('siComprador').checked == false;
+        document.getElementById('siComprador').checked = false;
     }
 
     if (personas[index].Vendedor == 'Vendedor') {
-        document.getElementById('siVendedor').checked == true;
+        document.getElementById('siVendedor').checked = true;
     } else {
-        document.getElementById('siVendedor').checked == false;
+        document.getElementById('siVendedor').checked = false;
     }   
 }
 
@@ -419,8 +437,8 @@ function clearPersonas() {
     document.getElementById('pTelefono').value = '';
     document.getElementById('pEmail').value = '';
     document.getElementById('pDireccion').value = '';
-    document.getElementById('siComprador').checked == false;
-    document.getElementById('siVendedor').checked == false;
+    document.getElementById('siComprador').checked = false;
+    document.getElementById('siVendedor').checked = false;
 }
 
 function peopleModify()
@@ -457,10 +475,12 @@ function peopleModify()
                     Ci          :   cI,
                     Nombre      :   nombre,
                     Apellido    :   apellido,
+                    Direccion   :   direccion,
                     Telefono    :   telefono,
                     Email       :   email,
                     Comprador   :   esComprador,
                     Vendedor    :   esVendedor,
+                    Cartera     :   personas[index].Cartera,
                     Uso         :   personas[index].Uso
                 });
                 refrescarPersonas();
@@ -468,3 +488,55 @@ function peopleModify()
         }
     }
 }
+
+
+/////////////////////////////////////////////////////
+
+function ventasLoadPropiedades() {
+    var db = document.getElementById('sellPropiedad');
+    db.innerHTML = '';
+    for (var i = 0; i < propiedades.length; i++) {
+        var line = document.createElement('option');
+        line.value = `${propiedades[i].Id} | ${propiedades[i].Tipo} | ${propiedades[i].Direccion} |  ${propiedades[i].Barrio} | ${propiedades[i].Dormitorios} | ${propiedades[i].Banos} | ${propiedades[i].Garage} | ${propiedades[i].Parrillero} | ${propiedades[i].Wifi}  | ${ propiedades[i].Mascotas} | ${propiedades[i].Precio} | ${propiedades[i].Propietario}`
+        db.add(line);
+    }
+}
+
+function ventasLoadCompradores() {
+    var db = document.getElementById('sellComprador');
+    db.innerHTML = '';
+    for (let i = 0; i < personas.length; i++) {
+        if (personas[i].Comprador == 'Comprador') {
+            var line = document.createElement('option');
+            line.text = `${personas[i].Id} | ${personas[i].Nombre} ${personas[i].Apellido}`
+            db.add(line);
+        }
+    }
+}
+
+function ventasLoadVendedores() {
+    
+}
+
+var ventas = new Array();
+var idVentas = new Array();
+
+var vFecha;
+var vPropiedad;
+var vMonto;
+var vComprador;
+var vVendedor;
+
+function getVenta() {
+    vFecha = document.getElementById('sellFecha').value;
+    vPropiedad = document.getElementById('sellPropiedad').value;
+    vMonto = document.getElementById('sellMonto').value;
+    vComprador = document.getElementById('sellComprador').value;
+    vVendedor = document.getElementById('sellVendedor').value;
+}
+
+
+
+
+
+
