@@ -490,14 +490,23 @@ function peopleModify()
 }
 
 
-/////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+///////////////////////////////////////// VENTAS //////////////////////////////////////////
+
 
 function ventasLoadPropiedades() {
     var db = document.getElementById('sellPropiedad');
     db.innerHTML = '';
     for (var i = 0; i < propiedades.length; i++) {
         var line = document.createElement('option');
-        line.value = `${propiedades[i].Id} | ${propiedades[i].Tipo} | ${propiedades[i].Direccion} |  ${propiedades[i].Barrio} | ${propiedades[i].Dormitorios} | ${propiedades[i].Banos} | ${propiedades[i].Garage} | ${propiedades[i].Parrillero} | ${propiedades[i].Wifi}  | ${ propiedades[i].Mascotas} | ${propiedades[i].Precio} | ${propiedades[i].Propietario}`
+        line.text = `${propiedades[i].Id} | ${propiedades[i].Tipo} | ${propiedades[i].Direccion} - $${propiedades[i].Precio}`
         db.add(line);
     }
 }
@@ -515,7 +524,15 @@ function ventasLoadCompradores() {
 }
 
 function ventasLoadVendedores() {
-    
+    var db = document.getElementById('sellVendedor');
+    db.innerHTML = '';
+    for (let i = 0; i < personas.length; i++) {
+        if (personas[i].Vendedor == 'Vendedor') {
+            var line = document.createElement('option');
+            line.text = `${personas[i].Id} | ${personas[i].Nombre} ${personas[i].Apellido}`
+            db.add(line);
+        }
+    }
 }
 
 var ventas = new Array();
@@ -535,8 +552,86 @@ function getVenta() {
     vVendedor = document.getElementById('sellVendedor').value;
 }
 
+function vender()
+{
+    getVenta();
+    arrEmpty.push(vFecha, vPropiedad, vComprador, vVendedor)
+    if (empty()) {
+        alert('Hay elementos vacios.');
+    } else {
+        var newId = idVentas.length;
+        idVentas.push(newId);
+        monto();
+        var p = document.getElementById('sellPropiedad').selectedIndex;
+        var c = document.getElementById('sellComprador').selectedIndex;
+        var v = document.getElementById('sellVendedor').selectedIndex;
+
+        ventas.push({
+            Id: newId,
+            Fecha: vFecha,
+            Propiedad: propiedades[p].Id,
+            Monto: vMonto,
+            Comprador: personas[c].Id,
+            Vendedor: personas[v].Id
+        })
+        refrescarVentas();
+    }
+}
+
+function SellLimpiar()
+{
+    document.getElementById('ventasfrm').reset();
+}
+
+
+function selectVentasdb()
+{
+    var listaVentas = document.getElementById('dbVentas');
+    var ventasSelected = listaVentas.selectedIndex;
+
+    document.getElementById('sellFecha').value = ventas[ventasSelected].Fecha;
+    document.getElementById('SellPropiedad').value = ventas[ventasSelected].Propiedad;
+    document.getElementById('sellMonto').value = ventas[ventasSelected].Monto;
+    document.getElementById('sellComprador').value = ventas[ventasSelected].Comprador;
+    document.getElementById('sellVendedor').value = ventas[ventasSelected].Vendedor;
+}
+
+
+function showVentas()
+{
+    var listaVentas = document.getElementById('dbVentas');
+    listaVentas.innerHTML = '';
+    for (var i = 0 ; i < ventas.length ; i++)
+    {
+            idPersonaVendedor = document.getElementById('')
+            var lineaVentas = document.createElement('option')                      // propiedades[ventas[i].Propiedad].Nombre
+            lineaVentas.text = ventas[i].Id + '   |   ' + ventas[i].Fecha + '   |   ' + ventas[i].Propiedad + '   |   ' + 
+                                ventas[i].Monto + '   |   ' + ventas[i].Comprador + '   |   ' + ventas[i].Vendedor;
+            listaVentas.add(lineaVentas);
+    }
+}
 
 
 
 
+function monto() {
+    var index = document.getElementById('sellPropiedad').selectedIndex;
+    var box = document.getElementById('sellMonto');
+    box.value = '$' + propiedades[index].Precio;
+    vMonto = parseInt(propiedades[index].Precio);
+}
 
+ 
+
+// dejalo abajo
+function refrescarVentas() {
+    SellLimpiar();
+    saveVentas();
+    saveIdVentas();
+    loadVentas();
+    loadIdVentas();
+    ventasLoadPropiedades();
+    ventasLoadCompradores();
+    ventasLoadVendedores();
+    showVentas();
+}

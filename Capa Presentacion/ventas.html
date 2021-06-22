@@ -19,7 +19,7 @@
         </script>
     </head>
 
-    <body>
+    <body onload="loadAllVentas()">
         <div id="header">
             <img src="../images/200x200.png" alt="menuLogo" onclick="toggleMenu()" id="menuLogo">
             <center>
@@ -50,7 +50,7 @@
                                 <p>Propiedad:</p>
                             </td>
                             <td>
-                                <select id="sellPropiedad" class="sellInput"></select>
+                                <select id="sellPropiedad" class="sellInput" onclick="monto()"></select>
                             </td>
                         </tr>
                         <tr>
@@ -80,12 +80,12 @@
                     </table>
                 </form>
 
-            <button onclick="vender()" class="sellBtns">Vender</button>
-            <button onclick="SellLimpiar()" class="sellBtns">Limpiar</button>
+                <button onclick="vender()" class="sellBtns">Vender</button>
+                <button onclick="SellLimpiar()" class="sellBtns">Limpiar</button>
 
-            <br>
-            <select id="dbVentas" size="500"></select>
-        </center>
+                <br>
+                <select id="dbVentas" onclick="selectVentasdb()" size="500"></select>
+            </center>
         </div>
     </body>
 </html>

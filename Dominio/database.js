@@ -30,6 +30,46 @@ function loadAllPropiedades() {
     showProperties();
 }
 
+function loadAllVentas() {
+    try {
+        window.localStorage.getItem('personas').length;
+    } catch(err) {
+        window.localStorage.setItem('personas', '[]');    
+    }
+    try {
+        window.localStorage.getItem('personasBackup').length;
+    } catch(err) {
+        window.localStorage.setItem('personasBackup', '[]');    
+    }
+    loadPersonas();
+    loadPersonasBackup();
+    
+    try {
+        window.localStorage.getItem('propiedades').length;
+    } catch(err) {
+        window.localStorage.setItem('propiedades', '[]');
+    }
+    try {
+        window.localStorage.getItem('propiedadesBackup').length;
+    } catch(err) {
+        window.localStorage.setItem('propiedadesBackup', '[]');
+    }
+    loadPropiedades();
+    loadPropiedadesBackup();
+
+    try {
+        window.localStorage.getItem('ventas').length;
+    } catch(err) {
+        window.localStorage.setItem('ventas', '[]'); 
+    }
+    try {
+        window.localStorage.getItem('idVentas').length;
+    } catch(err) {
+        window.localStorage.setItem('idVentas', '[]'); 
+    }
+    refrescarVentas();
+}
+
 function loadAllPersonas() {
     try {
         window.localStorage.getItem('personas').length;
@@ -45,6 +85,12 @@ function loadAllPersonas() {
     loadPersonasBackup();
     showPersonas();
 }
+
+
+
+////////////////////////////////////////////////////////////////////////
+
+
 
 function savePropiedades() { // guardar en ls
     window.localStorage.removeItem('propiedades');
@@ -66,8 +112,26 @@ function savePersonasBackup() {
     window.localStorage.setItem('personasBackup', JSON.stringify(personasBackup));
 }
 
+function saveVentas() {
+    window.localStorage.removeItem('ventas');
+    window.localStorage.setItem('ventas', JSON.stringify(ventas));
+}
+
+function saveIdVentas() {
+    window.localStorage.removeItem('idVentas');
+    window.localStorage.setItem('idVentas', JSON.stringify(idVentas));
+}
+
 function loadPropiedades() {
     propiedades = JSON.parse(window.localStorage.getItem('propiedades'));
+}
+
+function loadVentas() {
+    ventas = JSON.parse(window.localStorage.getItem('ventas'));
+}
+
+function loadIdVentas() {
+    idVentas = JSON.parse(window.localStorage.getItem('idVentas'));
 }
 
 function loadPropiedadesBackup() {
