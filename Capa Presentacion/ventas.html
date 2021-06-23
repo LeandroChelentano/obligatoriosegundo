@@ -11,9 +11,9 @@
             function toggleMenu() {
                 var menu = document.getElementById('menu');
                 if (menu.style.display == 'block') {
-                    menu.style.display == 'none'
+                    menu.style.display = 'none'
                 } else {
-                    menu.style.display == 'block'
+                    menu.style.display = 'block'
                 }
             }
         </script>
@@ -21,7 +21,7 @@
 
     <body onload="loadAllVentas()">
         <div id="header">
-            <img src="../images/200x200.png" alt="menuLogo" onclick="toggleMenu()" id="menuLogo">
+            <img src="../images/menu.png" alt="menuLogo" onclick="toggleMenu()" id="menuLogo">
             <center>
                 <p class="title">Ventas</p>
             </center>
@@ -84,7 +84,8 @@
                 <button onclick="SellLimpiar()" class="sellBtns">Limpiar</button>
 
                 <br>
-                <select id="dbVentas" onclick="selectVentasdb()" size="500"></select>
+                <select id="dbVentas" size="500"></select>
+                <!-- onclick="selectVentasdb()" no es necesario, no hay modificacion de datos -->
             </center>
         </div>
     </body>

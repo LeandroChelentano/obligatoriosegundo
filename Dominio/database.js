@@ -67,6 +67,8 @@ function loadAllVentas() {
     } catch(err) {
         window.localStorage.setItem('idVentas', '[]'); 
     }
+    loadVentas();
+    loadIdVentas();
     refrescarVentas();
 }
 

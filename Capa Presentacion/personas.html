@@ -11,9 +11,9 @@
             function toggleMenu() {
                 var menu = document.getElementById('menu');
                 if (menu.style.display == 'block') {
-                    menu.style.display == 'none'
+                    menu.style.display = 'none'
                 } else {
-                    menu.style.display == 'block'
+                    menu.style.display = 'block'
                 }
             }
         </script>
@@ -21,7 +21,7 @@
 
     <body onload="loadAllPersonas()">
         <div id="header">
-            <img src="../images/200x200.png" alt="menuLogo" style="z-index: 2;" onclick="toggleMenu()" id="menuLogo">
+            <img src="../images/menu.png" alt="menuLogo" style="z-index: 2;" onclick="toggleMenu()" id="menuLogo">
             <center>
                 <p class="title">Personas</p>
             </center>
@@ -116,7 +116,7 @@
                 <br>
                 <div id="cartera">
                     <p>Cartera:</p>
-                    <input type="text" id="cartera" readonly='readonly'>
+                    <input type="text" id="carteraBox" readonly='readonly'>
                 </div>
 
                 <br>

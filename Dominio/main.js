@@ -125,20 +125,23 @@ function getPersonas() {
 
 function refrescarPropiedades() {
     propertiesClear();
+
     savePropiedades();
-    savePropiedadesBackup();
+    savePersonas();
+
     loadPropiedades();
-    loadPropiedadesBackup();
+    loadPersonas();
+
     showProperties();
-    // loadPropietario();
 }
 
 function refrescarPersonas() {
     clearPersonas();
+    
     savePersonas();
-    savePersonasBackup()
+
     loadPersonas();
-    loadPersonasBackup();
+
     showPersonas();
 }
 
@@ -178,8 +181,18 @@ function propertiesAdd() {
                     Wifi        : wifi,
                     Mascotas    : mascotas,
                     Precio      : parseInt(precio),
-                    Propietario : propietario
+                    Propietario : propietario,
+                    Vendida     : 0 
                 })
+
+                // propietario por id
+                for (let i = 0; i < personas.length; i++) {
+                    if (personas[i].Id == propietario) {
+                        personas[i].Uso = personas[i].Uso + 1;
+                    }
+                }
+                
+
                 alert('La propiedad se ingreso correctamente.')
                 refrescarPropiedades()
             }
@@ -193,7 +206,13 @@ function showProperties() {
     for(var i=0 ; i < propiedades.length ; i++)
     {
         var linea = document.createElement('option');
-        linea.text = `${propiedades[i].Id} | ${propiedades[i].Tipo} | ${propiedades[i].Direccion} |  ${propiedades[i].Barrio} | ${propiedades[i].Dormitorios} | ${propiedades[i].Banos} | ${propiedades[i].Garage} | ${propiedades[i].Parrillero} | ${propiedades[i].Wifi}  | ${ propiedades[i].Mascotas} | ${propiedades[i].Precio} | ${propiedades[i].Propietario}`;
+        var indexP = 0;
+        for (let x = 0; x < personas.length; x++) {
+            if (personas[x].Id == propiedades[i].Propietario) {
+                indexP = x;
+            }
+        }
+        linea.text = `#${propiedades[i].Id} | ${propiedades[i].Tipo} - ${propiedades[i].Direccion} - ${propiedades[i].Barrio} - ${propiedades[i].Dormitorios} - ${propiedades[i].Banos} - ${propiedades[i].Garage} - ${propiedades[i].Parrillero} - ${propiedades[i].Wifi}  - ${ propiedades[i].Mascotas} - ${propiedades[i].Precio} | P#${personas[indexP].Id} - ${personas[indexP].Nombre} ${personas[indexP].Apellido}`;
         db.add(linea);
     }
 
@@ -247,17 +266,21 @@ function selectP() {
 function propertiesRemove() 
 {
     var index = document.getElementById('dbPropiedades').selectedIndex;
-    if (index == -1)
-    {
-        alert('Primero seleccione un elemento de la lista')
-    }
-    else
-    {
+    if (propiedades[index].Vendida == 0) {
+        // propietario por id
+        for (let i = 0; i < personas.length; i++) {
+            if (personas[i].Id == propietario) {
+                personas[i].Uso = personas[i].Uso - 1;
+            }
+        }
+
         propiedadesBackup.push(propiedades[index]);
         propiedades.splice(index, 1);
         alert('Propiedad eliminada con exito')
         refrescarPropiedades();
-    }  
+    } else {
+        alert('No se puede eliminar una propiedad vendida.');
+    }
 }
 
 
@@ -306,7 +329,8 @@ function propertiesModify()
                     Wifi        : wifi,
                     Mascotas    : mascotas,
                     Precio      : parseInt(precio),
-                    Propietario : propietario
+                    Propietario : propietario,
+                    Vendida     : propiedades[index].Vendida
                 })
                 alert('La propiedad se ha modificado correctamente.')
                 refrescarPropiedades()
@@ -380,7 +404,7 @@ function peopleAdd()
                     Email       :   email,
                     Comprador   :   esComprador,
                     Vendedor    :   esVendedor,
-                    cartera     :   0,
+                    Cartera     :   0,
                     Uso         :   0
                 });
                 refrescarPersonas();
@@ -390,12 +414,14 @@ function peopleAdd()
 }
 
 function peopleRemove() {
-    getPersonas();
-    var db = document.getElementById('dbPersonas');
-    var index = db.selectedIndex;
-    personasBackup.push(personas[index]);
-    personas.splice(index, 1);
-    refrescarPersonas();
+    var index = document.getElementById('dbPersonas').selectedIndex;
+    if (personas[index].Uso > 0) {
+        alert('La persona se encuentra en uso.')
+    } else {
+        personasBackup.push(personas[index]);
+        personas.splice(index, 1);
+        refrescarPersonas();
+    }
 }
 
 function showPersonas() {
@@ -410,6 +436,7 @@ function showPersonas() {
 
 function selPersona() {
     var index = document.getElementById('dbPersonas').selectedIndex;
+
     document.getElementById('pCI').value = personas[index].Ci;
     document.getElementById('pNombre').value = personas[index].Nombre;
     document.getElementById('pApellido').value = personas[index].Apellido;
@@ -427,7 +454,9 @@ function selPersona() {
         document.getElementById('siVendedor').checked = true;
     } else {
         document.getElementById('siVendedor').checked = false;
-    }   
+    }
+
+    document.getElementById('carteraBox').value = personas[index].Cartera;
 }
 
 function clearPersonas() {
@@ -439,6 +468,7 @@ function clearPersonas() {
     document.getElementById('pDireccion').value = '';
     document.getElementById('siComprador').checked = false;
     document.getElementById('siVendedor').checked = false;
+    document.getElementById('carteraBox').value = '';
 }
 
 function peopleModify()
@@ -552,8 +582,7 @@ function getVenta() {
     vVendedor = document.getElementById('sellVendedor').value;
 }
 
-function vender()
-{
+function vender() {
     getVenta();
     arrEmpty.push(vFecha, vPropiedad, vComprador, vVendedor)
     if (empty()) {
@@ -562,52 +591,115 @@ function vender()
         var newId = idVentas.length;
         idVentas.push(newId);
         monto();
-        var p = document.getElementById('sellPropiedad').selectedIndex;
-        var c = document.getElementById('sellComprador').selectedIndex;
-        var v = document.getElementById('sellVendedor').selectedIndex;
+     
 
-        ventas.push({
-            Id: newId,
-            Fecha: vFecha,
-            Propiedad: propiedades[p].Id,
-            Monto: vMonto,
-            Comprador: personas[c].Id,
-            Vendedor: personas[v].Id
-        })
-        refrescarVentas();
+        var i = document.getElementById('sellPropiedad').selectedIndex;
+        var p = propiedades[i].Id;
+
+        var ii = document.getElementById('sellComprador').selectedIndex;
+        let cTemp = new Array();
+        for (let x = 0; x < personas.length; x++) {
+            if (personas[x].Comprador == 'Comprador') {
+                cTemp.push(personas[x]);
+            }
+        }
+        // ii es index en personasCompradores
+        var c = cTemp[ii].Id; //id de comprador
+        cTemp.splice(0, cTemp.length);
+        var xC = 0;
+        for (let x = 0; x < personas.length; x++) {
+            if (personas[x].Id == c) {
+                xC = x;
+            }
+        } 
+        // xC es index en personas
+        
+
+     
+        var iii = document.getElementById('sellVendedor').selectedIndex;
+        let vTemp = new Array();
+        for (let u = 0; u < personas.length; u++)
+        {
+            if(personas[u].Vendedor == 'Vendedor')
+            {
+                vTemp.push(personas[u]);
+            }
+        }
+        // iii es el index en personasVendedores
+        var v = vTemp[iii].Id; // id del vendedor
+        vTemp.splice(0, vTemp.length);
+        var xV = 0;
+        for (let u = 0; u < personas.length; u++) {
+            if(personas[u].Id == v){
+                xV = u;
+            }
+        }
+        // xV es el index de Vendedores en Personas
+
+
+        if (propiedades[i].Vendida == 0) {
+            if (c == v || c == propiedades[i].Propietario) {
+                alert('Algo salio mal.')
+            } else {
+                propiedades[i].Vendida = 1;
+                propiedades[i].Propietario = c;
+                personas[xV].Cartera = personas[xV].Cartera + Math.round((3 * propiedades[i].Precio) / 100);
+
+                personas[xC].Uso = personas[xC].Uso + 1;
+                personas[xV].Uso = personas[xV].Uso + 1;
+
+                ventas.push({
+                    Id: newId,
+                    Fecha: vFecha,
+                    Propiedad: propiedades[p].Id,
+                    Monto: vMonto,
+                    Comprador: personas[c].Id,
+                    Vendedor: personas[v].Id
+                })
+                refrescarVentas();
+            }
+        } else {
+            alert('Propiedad ya vendida.');
+        }
     }
 }
 
-function SellLimpiar()
-{
-    document.getElementById('ventasfrm').reset();
+function SellLimpiar() {
+    document.getElementById('sellPropiedad').selectedIndex = 0;
+    document.getElementById('sellMonto').value = '';
+    document.getElementById('sellComprador').selectedIndex = 0;
+    document.getElementById('sellVendedor').selectedIndex = 0;
 }
 
+function showVentas() {
+    var db = document.getElementById('dbVentas');
+    db.innerHTML = '';
+    for (let i = 0; i < ventas.length; i++) {
+            var line = document.createElement('option');
+            
+            var indexVendedor = 0;
+            for (let x = 0; x < personas.length; x++) {
+                if (personas[x].Id == ventas[i].Vendedor) {
+                    indexVendedor = x;
+                }
+            }
+            
+            var indexComprador = 0;
+            for (let x = 0; x < personas.length; x++) {
+                if (personas[x].Id == ventas[i].Comprador) {
+                    indexComprador = x;
+                }
+            }
 
-function selectVentasdb()
-{
-    var listaVentas = document.getElementById('dbVentas');
-    var ventasSelected = listaVentas.selectedIndex;
-
-    document.getElementById('sellFecha').value = ventas[ventasSelected].Fecha;
-    document.getElementById('SellPropiedad').value = ventas[ventasSelected].Propiedad;
-    document.getElementById('sellMonto').value = ventas[ventasSelected].Monto;
-    document.getElementById('sellComprador').value = ventas[ventasSelected].Comprador;
-    document.getElementById('sellVendedor').value = ventas[ventasSelected].Vendedor;
-}
-
-
-function showVentas()
-{
-    var listaVentas = document.getElementById('dbVentas');
-    listaVentas.innerHTML = '';
-    for (var i = 0 ; i < ventas.length ; i++)
-    {
-            idPersonaVendedor = document.getElementById('')
-            var lineaVentas = document.createElement('option')                      // propiedades[ventas[i].Propiedad].Nombre
-            lineaVentas.text = ventas[i].Id + '   |   ' + ventas[i].Fecha + '   |   ' + ventas[i].Propiedad + '   |   ' + 
-                                ventas[i].Monto + '   |   ' + ventas[i].Comprador + '   |   ' + ventas[i].Vendedor;
-            listaVentas.add(lineaVentas);
+            var indexPropiedad = 0;
+            for (let x = 0; x < propiedades.length; x++) {
+                if (propiedades[x].Id == ventas[i].Propiedad) {
+                    indexPropiedad = x;
+                }
+            }
+            
+            line.text = `V#${ventas[i].Id} | ${ventas[i].Fecha} | P#${propiedades[indexPropiedad].Id} - ${propiedades[indexPropiedad].Direccion} | Vendedor: ${personas[indexVendedor].Id} - ${personas[indexVendedor].Nombre} ${personas[indexVendedor].Apellido} | Comprador: ${personas[indexComprador].Id} - ${personas[indexComprador].Nombre} ${personas[indexComprador].Apellido} = $${ventas[i].Monto}`
+            db.add(line);
     }
 }
 
@@ -626,10 +718,17 @@ function monto() {
 // dejalo abajo
 function refrescarVentas() {
     SellLimpiar();
+
     saveVentas();
     saveIdVentas();
+    savePropiedades();
+    savePersonas();
+
     loadVentas();
     loadIdVentas();
+    loadPropiedades();
+    loadPersonas();
+
     ventasLoadPropiedades();
     ventasLoadCompradores();
     ventasLoadVendedores();
