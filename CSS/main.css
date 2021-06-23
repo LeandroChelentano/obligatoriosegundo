@@ -142,7 +142,14 @@ body {
     margin-left: 10%;
 }
 
-#content center form tr td input[type=radio] {
+#content center form tr td input[type=radio] { /* For chechk too */
+    border: 0px;
+    width: 100%;
+    height: 1em;
+    width: 2em;
+}
+
+#content center form tr td input[type=checkbox] { /* For chechk too */
     border: 0px;
     width: 100%;
     height: 1em;

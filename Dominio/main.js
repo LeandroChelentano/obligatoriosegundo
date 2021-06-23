@@ -141,6 +141,7 @@ function refrescarPersonas() {
     savePersonas();
 
     loadPersonas();
+    loadVentas();
 
     showPersonas();
 }
@@ -292,6 +293,7 @@ function propertiesClear()
 
 function propertiesModify()
 {
+    loadVentas();
     var index = document.getElementById('dbPropiedades').selectedIndex;
     getData();
     arrEmpty.push(tipo, direccion, barrio, ciudad, metros, dormitorios, banos, garage, parrillero, wifi, mascotas, precio) //, propietario
@@ -476,44 +478,50 @@ function peopleModify()
     var index = document.getElementById('dbPersonas').selectedIndex;
     getPersonas();
     arrEmpty.push(cI,nombre,apellido,telefono,eMail,direccion);
-    if(empty())
-    {
-        alert('Debe seleccionar una persona en la lista')
-    }
-    else
-    {
+    if(empty()) {
+        alert('Debe seleccionar una persona en la lista');
+    } else {
         arrInteger.push(telefono,cI);
-        if(integer())
-        {
-            alert('Los valores de CI y Telefono deben ser numericos.')
-        }
-        else
-        {
+        if(integer()) {
+            alert('Los valores de CI y Telefono deben ser numericos.');
+        } else {
             var x = false;
-            for (var i = 0; i < personas.length; i++)
-            {
-                if (personas[i].Ci == cI && personas[i].Ci != personas[index].Ci)
-                {
+            for (var i = 0; i < personas.length; i++) {
+                if (personas[i].Ci == cI && personas[i].Ci != personas[index].Ci) {
                     alert('La cedula a registrar ya esta registrada');
                     x = true;
                 } 
             }
-            if (x == false)
-            {
-                personas[index] = ({
-                    Id          :   personas[index].Id,
-                    Ci          :   cI,
-                    Nombre      :   nombre,
-                    Apellido    :   apellido,
-                    Direccion   :   direccion,
-                    Telefono    :   telefono,
-                    Email       :   email,
-                    Comprador   :   esComprador,
-                    Vendedor    :   esVendedor,
-                    Cartera     :   personas[index].Cartera,
-                    Uso         :   personas[index].Uso
-                });
-                refrescarPersonas();
+            if (x == false) {
+                let cUse = false;
+                let vUse = false;
+                for (let i = 0; i < ventas.length; i++) {
+                    if (ventas[i].Comprador == personas[index].Id) {
+                        cUse = true;
+                    }
+                    if (ventas[i].Vendedor == personas[index].Id) {
+                        vUse = true;
+                    }
+                }
+
+                if (cUse == true && esComprador == '' || vUse == true && esVendedor == '') {
+                    alert('No puede quitarse la propiedad de vendedor o comprador una vez se estuvo implicado en una transaccion.')
+                } else {
+                    personas[index] = ({
+                        Id          :   personas[index].Id,
+                        Ci          :   cI,
+                        Nombre      :   nombre,
+                        Apellido    :   apellido,
+                        Direccion   :   direccion,
+                        Telefono    :   telefono,
+                        Email       :   email,
+                        Comprador   :   esComprador,
+                        Vendedor    :   esVendedor,
+                        Cartera     :   personas[index].Cartera,
+                        Uso         :   personas[index].Uso
+                    });
+                    refrescarPersonas();
+                }
             }
         }
     }

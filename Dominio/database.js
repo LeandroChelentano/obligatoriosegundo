@@ -85,6 +85,7 @@ function loadAllPersonas() {
     }
     loadPersonas();
     loadPersonasBackup();
+    loadVentas();
     showPersonas();
 }
 
